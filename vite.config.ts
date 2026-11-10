@@ -1,0 +1,9 @@
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  base: "/Library-Toolkit/",
+  build: {
+    sourcemap: false,
+    target: "es2020"
+  }
+});
