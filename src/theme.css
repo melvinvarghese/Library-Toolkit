@@ -217,3 +217,5 @@ h1,h2,h3,h4,p,ul{margin:0}
   .barcode-paper{width:210mm!important;min-height:297mm!important;margin:0!important;padding:12mm!important;box-shadow:none!important;transform:none!important}
   .barcode-sheet{break-inside:auto}
 }
+
+.barcode-item-heading{font-size:10pt;font-weight:700;text-align:center;overflow-wrap:anywhere;margin-bottom:3mm}
