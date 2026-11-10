@@ -1,6 +1,5 @@
 import "./styles.css";
 import JsBarcode from "jsbarcode";
-import {mountContinuousBarcode} from "./barcode";
 import {categories,tools,type Tool} from "./data/tools";
 
 const app=document.querySelector<HTMLDivElement>("#app");
@@ -20,7 +19,7 @@ const categoryCount=(id:string)=>tools.filter(t=>t.category===id).length;
 function toolRow(tool:Tool){
   const ready=tool.status==="available";
   const action=ready
-    ? '<button class="tool-open" type="button" data-tool="'+escapeHtml(tool.id)+'" aria-label="Open '+escapeHtml(tool.name)+'">Open</button>'
+    ? '<a class="tool-open" href="/Library-Toolkit/barcode/continuous/" aria-label="Open '+escapeHtml(tool.name)+'">Open</a>'
     : '<span class="tool-state">'+statusLabel(tool.status)+'</span>';
   return '<li class="tool'+(ready?' is-ready':'')+'"><div class="tool-text"><h4>'+escapeHtml(tool.name)+'</h4><p>'+escapeHtml(tool.description)+'</p></div>'+action+'</li>';
 }
@@ -50,7 +49,7 @@ root.innerHTML=`
       <p class="lede">Free tools for librarians and library students. No installation or account required..</p>
       <div class="hero-actions">
         <a class="btn btn-yellow" href="#tools">Browse the tools</a>
-        <button class="btn-link" type="button" data-tool="continuous-barcode">Open the barcode generator</button>
+        <a class="btn-link" href="/Library-Toolkit/barcode/continuous/">Open the barcode generator</a>
       </div>
     </div>
     <div class="try">
@@ -155,34 +154,12 @@ root.querySelector<HTMLButtonElement>("#clear-filters")!.addEventListener("click
 });
 renderTools();
 
-let lastFocus:HTMLElement|null=null;
-function closeOverlay(){
-  document.querySelector("#barcode-tool-overlay")?.remove();
-  lastFocus?.focus();
-  lastFocus=null;
-}
-
 document.addEventListener("keydown",event=>{
-  if(event.key==="Escape"&&document.querySelector("#barcode-tool-overlay")){closeOverlay();return;}
   const tag=document.activeElement?.tagName??"";
   const typing=tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT";
-  if(event.key==="/"&&!typing&&!document.querySelector("#barcode-tool-overlay")){event.preventDefault();search.focus();}
+  if(event.key==="/"&&!typing){event.preventDefault();search.focus();}
   if(event.key==="Escape"&&document.activeElement===search){
     if(search.value){search.value="";query="";renderTools();}
     search.blur();
   }
-});
-
-document.addEventListener("click",event=>{
-  const trigger=(event.target as HTMLElement).closest<HTMLElement>("[data-tool]");
-  if(!trigger||trigger.dataset.tool!=="continuous-barcode"||document.querySelector("#barcode-tool-overlay")) return;
-  lastFocus=trigger;
-  const overlay=document.createElement("div");
-  overlay.id="barcode-tool-overlay";
-  overlay.className="barcode-tool-overlay";
-  overlay.innerHTML='<div class="barcode-tool-dialog" role="dialog" aria-modal="true" aria-label="Continuous barcode generator"></div>';
-  root.append(overlay);
-  mountContinuousBarcode(overlay.querySelector<HTMLElement>(".barcode-tool-dialog")!,closeOverlay);
-  overlay.addEventListener("click",e=>{if(e.target===overlay)closeOverlay();});
-  overlay.querySelector<HTMLInputElement>("input")?.focus();
 });
