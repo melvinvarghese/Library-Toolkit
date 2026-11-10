@@ -14,6 +14,9 @@ export function mountContinuousBarcode(container: HTMLElement, onClose: () => vo
           <label>Starting number<input id="barcode-start" type="text" value="000001" inputmode="numeric" required></label>
           <label>Ending number<input id="barcode-end" type="text" value="000050" inputmode="numeric" required></label>
           <p class="barcode-hint">Keep the same number of digits to preserve leading zeros.</p>
+          <label>Text above barcode (optional)<input id="barcode-heading" type="text" maxlength="60" placeholder="Enter your library or institution name"></label>
+          <label>Barcode prefix (optional)<input id="barcode-prefix" type="text" maxlength="20" placeholder="e.g. LIB-"></label>
+          <p class="barcode-hint">The prefix is encoded as part of each value. Code 39 supports A–Z, 0–9, hyphen, period, space, $, /, + and %.</p>
           <div class="barcode-two">
             <label>Barcode format<select id="barcode-format"><option value="CODE128">Code 128 (recommended)</option><option value="CODE39">Code 39</option></select></label>
             <label>Columns<select id="barcode-columns"><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
@@ -50,6 +53,8 @@ export function mountContinuousBarcode(container: HTMLElement, onClose: () => vo
     const endText = byId<HTMLInputElement>("barcode-end").value.trim();
     const start = Number(startText), end = Number(endText);
     const format = byId<HTMLSelectElement>("barcode-format").value;
+    const prefix = byId<HTMLInputElement>("barcode-prefix").value.trim();
+    const heading = byId<HTMLInputElement>("barcode-heading").value.trim();
     if (!/^\d+$/.test(startText) || !/^\d+$/.test(endText) || !Number.isSafeInteger(start) || !Number.isSafeInteger(end)) {
       message.textContent = "Use whole numbers only for the starting and ending values."; return;
     }
@@ -57,7 +62,8 @@ export function mountContinuousBarcode(container: HTMLElement, onClose: () => vo
     const total = end - start + 1;
     if (total > 500) { message.textContent = "For a smooth preview, generate up to 500 barcodes at a time."; return; }
     if (startText.length !== endText.length) { message.textContent = "Use the same number of digits in both fields to preserve leading zeros."; return; }
-    const values = Array.from({length: total}, (_, i) => String(start + i).padStart(startText.length, "0"));
+    if (format === "CODE39" && !/^[0-9A-Z. $/+%-]*$/.test(prefix.toUpperCase())) { message.textContent = "This prefix contains characters that Code 39 cannot encode."; return; }
+    const values = Array.from({length: total}, (_, i) => (format === "CODE39" ? prefix.toUpperCase() : prefix) + String(start + i).padStart(startText.length, "0"));
     const columns = Number(byId<HTMLSelectElement>("barcode-columns").value);
     const height = Number(byId<HTMLInputElement>("barcode-height").value);
     const width = Number(byId<HTMLInputElement>("barcode-width").value);
