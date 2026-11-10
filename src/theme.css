@@ -91,7 +91,7 @@ h1,h2,h3,h4,p,ul{margin:0}
 .tool-state{flex:0 0 auto;font-size:14px;font-weight:600;color:var(--muted)}
 .tool.is-ready{background:var(--blue);color:var(--white);padding:22px 24px;border-bottom:0;margin-bottom:6px}
 .tool.is-ready p{color:rgba(255,255,255,.88)}
-.tool-open{flex:0 0 auto;height:46px;padding:0 22px;background:var(--yellow);color:var(--ink);border:0;border-radius:6px;font-weight:700;cursor:pointer;transition:background .15s,transform .15s}
+.tool-open{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;height:46px;padding:0 22px;background:var(--yellow);color:var(--ink);border:0;border-radius:6px;font-weight:700;cursor:pointer;transition:background .15s,transform .15s}
 .tool-open:hover{background:#ffe27a}
 .tool-open:active{transform:translateY(1px)}
 .empty{padding:48px 0;border-top:1px solid var(--line);text-align:center}
