@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a3fd0">
+  <meta name="description" content="Generate a numbered sequence of Code 128 or Code 39 barcodes for library books and accession numbers. Customize the print layout and save your barcode sheet as PDF.">
+  <meta property="og:title" content="Continuous Barcode Generator | Library Toolkit">
+  <meta property="og:description" content="Create sequential library barcodes, customize the sheet and print or save it as a PDF. Free and browser-based.">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://melvinvarghese.github.io/Library-Toolkit/barcode/continuous/">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+  <title>Continuous Barcode Generator for Libraries | Library Toolkit</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Continuous Barcode Generator",
+    "url": "https://melvinvarghese.github.io/Library-Toolkit/barcode/continuous/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "description": "Generate sequential Code 128 or Code 39 barcodes for library books and accession numbers, then print the barcode sheet or save it as a PDF.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+  }
+  </script>
+</head>
+<body>
+  <div class="hero-wrap">
+    <header class="bar tool-page-header">
+      <a class="wordmark" href="/Library-Toolkit/" aria-label="Library Toolkit home">
+        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="6" fill="#ffd23f"/><g fill="#0c1535"><rect x="7" y="8" width="3" height="16"/><rect x="12" y="8" width="1.5" height="16"/><rect x="15.5" y="8" width="3.5" height="16"/><rect x="21" y="8" width="1.5" height="16"/><rect x="24" y="8" width="2" height="16"/></g></svg>
+        <span>Library Toolkit</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/Library-Toolkit/#tools">All tools</a>
+        <a href="https://github.com/melvinvarghese/Library-Toolkit" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </header>
+  </div>
+
+  <main id="tool-page">
+    <div class="barcode-tool-dialog" role="region" aria-label="Continuous barcode generator">
+      <div id="barcode-generator"></div>
+    </div>
+
+    <section class="tool-seo-content" aria-labelledby="about-tool">
+      <p class="tool-breadcrumb"><a href="/Library-Toolkit/">Library Toolkit</a> / <a href="/Library-Toolkit/#tools">Barcode tools</a> / Continuous barcode generator</p>
+      <h2 id="about-tool">Create sequential barcodes for your library</h2>
+      <p>Use this free continuous barcode generator to create a printable sequence for library books, accession numbers, membership records and other items that need unique identification numbers. Enter the first and last number, choose a barcode format and arrange the results on an A4 sheet.</p>
+      <h3>How to use the barcode generator</h3>
+      <ol>
+        <li>Enter the starting and ending numbers for your sequence.</li>
+        <li>Keep the same number of digits in both values if you need leading zeros, such as 000001 to 000050.</li>
+        <li>Choose Code 128 or Code 39 and set the number of columns.</li>
+        <li>Adjust barcode height, width and spacing to suit your labels or paper.</li>
+        <li>Select Generate barcodes, review the preview, then print or save the sheet as a PDF.</li>
+      </ol>
+      <h3>Useful for accession numbers and library labels</h3>
+      <p>Sequential barcodes are useful when processing a new batch of books or preparing identification labels for a collection. The generator creates the barcodes in your browser; your entered values are not uploaded to a server.</p>
+      <h3>Frequently asked questions</h3>
+      <h4>Can I keep leading zeros in my barcode numbers?</h4>
+      <p>Yes. Enter the same number of digits in the starting and ending fields. For example, use 000001 and 000100 to keep six-digit values throughout the sequence.</p>
+      <h4>How many barcodes can I generate at once?</h4>
+      <p>You can generate up to 500 barcodes in one batch. For larger collections, create multiple batches.</p>
+      <h4>Can I print the barcode sheet?</h4>
+      <p>Yes. Generate the sheet and use Print or save as PDF. The layout is designed for A4 portrait paper; check a sample with your barcode scanner before printing a large batch.</p>
+      <p class="tool-related"><a href="/Library-Toolkit/#tools">Browse all Library Toolkit tools</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer tool-page-footer">
+    <div class="wrap footer-inner">
+      <a class="wordmark" href="/Library-Toolkit/"><span>Library Toolkit</span></a>
+      <p>Independent tools for the people who keep libraries running.</p>
+      <nav class="footer-links" aria-label="Project links">
+        <a href="/Library-Toolkit/#tools">All tools</a>
+        <a href="https://github.com/melvinvarghese/Library-Toolkit" target="_blank" rel="noreferrer">Source on GitHub</a>
+      </nav>
+    </div>
+    <div class="wrap footer-base">Library Toolkit · Free browser-based tools for librarians</div>
+  </footer>
+  <script type="module" src="/src/tool-pages/continuous-barcode.ts"></script>
+</body>
+</html>
