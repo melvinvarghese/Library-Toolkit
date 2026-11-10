@@ -16,6 +16,48 @@
 </head>
 <body>
   <div id="app"></div>
+  <script>
+    (() => {
+      let reported = false;
+      const report = (message) => {
+        if (reported) return;
+        reported = true;
+        const panel = document.createElement("section");
+        panel.setAttribute("role", "alert");
+        panel.style.cssText = "box-sizing:border-box;max-width:680px;margin:48px auto;padding:28px;border:1px solid #c96b54;background:#fffdf8;color:#202722;font:16px/1.6 system-ui,sans-serif";
+        const heading = document.createElement("h1");
+        heading.textContent = "Library Toolkit couldn't start";
+        heading.style.cssText = "margin:0 0 12px;font-size:24px";
+        const detail = document.createElement("p");
+        detail.textContent = message || "The page scripts did not finish loading.";
+        detail.style.cssText = "overflow-wrap:anywhere;margin:0 0 12px";
+        const help = document.createElement("p");
+        help.textContent = "Please send a screenshot of this message to the site maintainer. You can also try refreshing the page.";
+        help.style.margin = "0";
+        panel.append(heading, detail, help);
+        const app = document.getElementById("app");
+        if (app) {
+          app.replaceChildren(panel);
+        } else {
+          document.body.replaceChildren(panel);
+        }
+      };
+      window.addEventListener("error", (event) => {
+        const detail = event.message || (event.target && event.target.src ? "Could not load script: " + event.target.src : "A browser script error occurred.");
+        report(detail);
+      }, true);
+      window.addEventListener("unhandledrejection", (event) => {
+        const reason = event.reason;
+        report(reason && reason.message ? reason.message : String(reason || "An unexpected startup error occurred."));
+      });
+      window.setTimeout(() => {
+        const app = document.getElementById("app");
+        if (app && app.childElementCount === 0) {
+          report("The application did not render within 5 seconds. This may mean its JavaScript file failed to load or stopped during startup.");
+        }
+      }, 5000);
+    })();
+  </script>
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
