@@ -18,8 +18,9 @@ const categoryCount=(id:string)=>tools.filter(t=>t.category===id).length;
 
 function toolRow(tool:Tool){
   const ready=tool.status==="available";
+  const paths:Record<string,string>={"continuous-barcode":"/barcode/continuous/","custom-barcode":"/barcode/custom/","isbn-barcode":"/barcode/isbn/","spine-label-maker":"/labels/spine/"};
   const action=ready
-    ? '<a class="tool-open" href="/Library-Toolkit/barcode/continuous/" aria-label="Open '+escapeHtml(tool.name)+'">Open</a>'
+    ? '<a class="tool-open" href="/Library-Toolkit'+(paths[tool.id]??"/") + '" aria-label="Open '+escapeHtml(tool.name)+'">Open</a>'
     : '<span class="tool-state">'+statusLabel(tool.status)+'</span>';
   return '<li class="tool'+(ready?' is-ready':'')+'"><div class="tool-text"><h4>'+escapeHtml(tool.name)+'</h4><p>'+escapeHtml(tool.description)+'</p></div>'+action+'</li>';
 }
