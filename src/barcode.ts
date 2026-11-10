@@ -4,8 +4,7 @@ export function mountContinuousBarcode(container: HTMLElement, onClose: () => vo
   container.innerHTML = `
     <div class="barcode-tool-shell">
       <div class="barcode-tool-heading">
-        <button class="barcode-back" type="button" id="barcode-back">← All tools</button>
-        <div class="eyebrow eyebrow-muted">BARCODE TOOLS</div>
+        <button class="barcode-back" type="button" id="barcode-back">Back to all tools</button>
         <h1>Continuous barcode generator</h1>
         <p>Create a numbered sequence of barcodes, ready to print for your library collection.</p>
       </div>
@@ -29,11 +28,11 @@ export function mountContinuousBarcode(container: HTMLElement, onClose: () => vo
             <label>Vertical gap (mm)<input id="barcode-gap-y" type="number" min="0" max="30" value="8"></label>
           </div>
           <label class="barcode-check"><input id="barcode-text" type="checkbox" checked> Show number below barcode</label>
-          <div class="barcode-actions"><button class="button button-primary" type="submit">Generate barcodes →</button><button class="barcode-secondary" type="button" id="barcode-print">Print / Save as PDF</button></div>
+          <div class="barcode-actions"><button class="barcode-primary" type="submit">Generate barcodes</button><button class="barcode-secondary" type="button" id="barcode-print">Print or save as PDF</button></div>
           <p class="barcode-message" id="barcode-message" role="status">Enter a sequence and generate your sheet.</p>
         </form>
         <section class="barcode-preview-panel">
-          <div class="barcode-preview-top"><div><h2>Print preview</h2><p id="barcode-summary">A4 · Portrait</p></div><span class="barcode-live">LOCAL PREVIEW</span></div>
+          <div class="barcode-preview-top"><div><h2>Print preview</h2><p id="barcode-summary">A4 portrait</p></div><span class="barcode-live">Stays in your browser</span></div>
           <div class="barcode-paper-wrap"><div class="barcode-paper" id="barcode-paper"><div class="barcode-empty">Your barcode sheet will appear here.</div></div></div>
           <p class="barcode-footnote">Print on A4 paper at 100% scale. Printer margins may vary. Test a sample with your barcode scanner before printing a full batch.</p>
         </section>
@@ -51,7 +50,7 @@ export function mountContinuousBarcode(container: HTMLElement, onClose: () => vo
     const endText = byId<HTMLInputElement>("barcode-end").value.trim();
     const start = Number(startText), end = Number(endText);
     const format = byId<HTMLSelectElement>("barcode-format").value;
-    if (!/^\\d+$/.test(startText) || !/^\\d+$/.test(endText) || !Number.isSafeInteger(start) || !Number.isSafeInteger(end)) {
+    if (!/^\d+$/.test(startText) || !/^\d+$/.test(endText) || !Number.isSafeInteger(start) || !Number.isSafeInteger(end)) {
       message.textContent = "Use whole numbers only for the starting and ending values."; return;
     }
     if (start > end) { message.textContent = "The ending number must be greater than or equal to the starting number."; return; }
@@ -85,8 +84,8 @@ export function mountContinuousBarcode(container: HTMLElement, onClose: () => vo
       sheet.append(item);
     }
     paper.replaceChildren(sheet);
-    byId<HTMLParagraphElement>("barcode-summary").textContent = "A4 · Portrait · " + total + " barcodes";
-    message.textContent = total + " barcodes generated. Use Print / Save as PDF when ready.";
+    byId<HTMLParagraphElement>("barcode-summary").textContent = "A4 portrait, " + total + " barcodes";
+    message.textContent = total + " barcodes generated. Use Print or save as PDF when ready.";
     generated = true;
   });
   byId<HTMLButtonElement>("barcode-print").addEventListener("click", () => {
