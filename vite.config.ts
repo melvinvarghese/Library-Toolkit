@@ -12,7 +12,10 @@ export default defineConfig({
     rollupOptions:{
       input:{
         main:resolve(root,"index.html"),
-        continuousBarcode:resolve(root,"barcode/continuous/index.html"),\n        isbnBarcode:resolve(root,"barcode/isbn/index.html"),\n        customBarcode:resolve(root,"barcode/custom/index.html"),\n        spineLabels:resolve(root,"labels/spine/index.html")
+        continuousBarcode:resolve(root,"barcode/continuous/index.html"),
+        isbnBarcode:resolve(root,"barcode/isbn/index.html"),
+        customBarcode:resolve(root,"barcode/custom/index.html"),
+        spineLabels:resolve(root,"labels/spine/index.html")
       }
     }
   }
