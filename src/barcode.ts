@@ -70,6 +70,11 @@ export function mountContinuousBarcode(container: HTMLElement, onClose: () => vo
     const sheet = document.createElement("div");
     sheet.className = "barcode-sheet";
     sheet.style.setProperty("--barcode-columns", String(columns));
+    const rows = Math.ceil(total / columns);
+    if (total <= 30) {
+      sheet.classList.add("barcode-sheet-spread");
+      sheet.style.setProperty("--barcode-rows", String(rows));
+    }
     sheet.style.setProperty("--barcode-gap-x", gapX + "mm");
     sheet.style.setProperty("--barcode-gap-y", gapY + "mm");
     for (const value of values) {
