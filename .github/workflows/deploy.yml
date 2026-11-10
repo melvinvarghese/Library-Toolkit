@@ -2,6 +2,8 @@ name: Deploy Library Toolkit to GitHub Pages
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,10 +24,13 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Copy social sharing image
+        run: mkdir -p dist/assets && cp assets/og-image.webp dist/assets/og-image.webp
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
