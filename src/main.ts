@@ -5,165 +5,184 @@ import {categories,tools,type Tool} from "./data/tools";
 
 const app=document.querySelector<HTMLDivElement>("#app");
 if(!app) throw new Error("Application root was not found.");
+const root:HTMLDivElement=app;
 
+const REPO="https://github.com/melvinvarghese/Library-Toolkit";
 const escapeHtml=(value:string)=>value.replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]??char));
-const icon=(name:string)=> {
-  const paths:Record<string,string>={
-    arrow:'<path d="M5 12h14M12 5l7 7-7 7"/>',
-    search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
-    book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/>',
-    menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
-    close:'<path d="m18 6-12 12M6 6l12 12"/>'
-  };
-  return '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+(paths[name]??paths.arrow)+'</svg>';
-};
-const statusText=(status:Tool["status"])=>status==="available"?"Ready to use":status==="in-progress"?"In progress":"In the works";
-const categoryName=(id:string)=>categories.find(c=>c.id===id)?.name??"Library tools";
 
-function toolRow(tool:Tool,index:number){
+const searchIcon='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>';
+const mark='<svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="6" fill="#ffd23f"/><g fill="#0c1535"><rect x="7" y="8" width="3" height="16"/><rect x="12" y="8" width="1.5" height="16"/><rect x="15.5" y="8" width="3.5" height="16"/><rect x="21" y="8" width="1.5" height="16"/><rect x="24" y="8" width="2" height="16"/></g></svg>';
+
+const readyCount=tools.filter(t=>t.status==="available").length;
+const statusLabel=(status:Tool["status"])=>status==="available"?"Ready":status==="in-progress"?"In progress":"Planned";
+const categoryCount=(id:string)=>tools.filter(t=>t.category===id).length;
+
+function toolRow(tool:Tool){
   const ready=tool.status==="available";
-  return `<article class="tool-row ${ready?"is-ready":""}">
-    <span class="tool-index">${String(index+1).padStart(2,"0")}</span>
-    <div class="tool-main"><h3>${escapeHtml(tool.name)}</h3><p>${escapeHtml(tool.description)}</p></div>
-    <span class="tool-category">${escapeHtml(categoryName(tool.category))}</span>
-    <span class="tool-status status-${tool.status}"><i></i>${statusText(tool.status)}</span>
-    ${ready?'<button class="tool-open" data-tool="continuous-barcode" aria-label="Open continuous barcode generator">'+icon("arrow")+'</button>':'<span class="tool-open tool-open-muted" aria-hidden="true">· · ·</span>'}
-  </article>`;
+  const action=ready
+    ? '<button class="tool-open" type="button" data-tool="'+escapeHtml(tool.id)+'" aria-label="Open '+escapeHtml(tool.name)+'">Open</button>'
+    : '<span class="tool-state">'+statusLabel(tool.status)+'</span>';
+  return '<li class="tool'+(ready?' is-ready':'')+'"><div class="tool-text"><h4>'+escapeHtml(tool.name)+'</h4><p>'+escapeHtml(tool.description)+'</p></div>'+action+'</li>';
 }
 
-app.innerHTML=`
-<a class="skip-link" href="#directory">Skip to tools</a>
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="wordmark" href="#top" aria-label="Library Toolkit home">
-      <span class="wordmark-stamp">LT</span>
-      <span class="wordmark-text">LIBRARY <b>TOOLKIT</b><small>THE LIBRARIAN'S WORKBENCH</small></span>
-    </a>
-    <nav class="main-nav" aria-label="Main navigation">
-      <a class="nav-current" href="#directory">Tools <span>25</span></a>
-      <a href="#how-it-works">How it works</a>
-      <a href="https://github.com/melvinvarghese/Library-Toolkit" target="_blank" rel="noreferrer">Source code ↗</a>
+function renderGroups(matches:Tool[]){
+  return categories.map(cat=>{
+    const items=matches.filter(t=>t.category===cat.id);
+    if(!items.length) return "";
+    return '<section class="group" data-cat="'+cat.id+'" aria-labelledby="group-'+cat.id+'"><header class="group-head"><h3 id="group-'+cat.id+'">'+escapeHtml(cat.name)+'</h3><p>'+escapeHtml(cat.description)+'</p></header><ul class="tool-list">'+items.map(toolRow).join("")+'</ul></section>';
+  }).join("");
+}
+
+root.innerHTML=`
+<a class="skip-link" href="#tools">Skip to tools</a>
+<div class="hero-wrap">
+  <header class="bar">
+    <a class="wordmark" href="#top" aria-label="Library Toolkit, home">${mark}<span>Library Toolkit</span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#tools">Tools</a>
+      <a class="nav-about" href="#about">About</a>
+      <a href="${REPO}" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
-    <button class="mobile-menu-button" aria-label="Open navigation" aria-expanded="false">${icon("menu")}</button>
-  </div>
-  <nav class="mobile-nav" aria-label="Mobile navigation">
-    <a href="#directory">Tools</a><a href="#how-it-works">How it works</a><a href="https://github.com/melvinvarghese/Library-Toolkit">Source code</a>
-  </nav>
-</header>
-
-<main id="top">
-  <section class="intro">
-    <div class="intro-inner">
-      <div class="intro-copy">
-        <p class="overline"><span class="overline-rule"></span> A PRACTICAL TOOLKIT FOR LIBRARY PEOPLE</p>
-        <h1>Library work.<br><em>Made lighter.</em></h1>
-        <p class="intro-lede">The small jobs behind a well-run library take time. Make barcodes, prepare labels and sort records with simple tools built for the way libraries actually work.</p>
-        <div class="intro-actions">
-          <a class="primary-link" href="#directory">Find a tool <span>${icon("arrow")}</span></a>
-          <span class="intro-aside">Free to use. No account. No uploads.</span>
+  </header>
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <h1 id="hero-title" class="display">Barcodes, labels and records for your library.</h1>
+      <p class="lede">Free tools for librarians and library students. There is nothing to install and no account to make, and everything runs in your browser.</p>
+      <div class="hero-actions">
+        <a class="btn btn-yellow" href="#tools">Browse the tools</a>
+        <button class="btn-link" type="button" data-tool="continuous-barcode">Open the barcode generator</button>
+      </div>
+    </div>
+    <div class="try">
+      <div class="sticker">
+        <div class="sticker-band"><span>Library Toolkit</span><span>Code 128</span></div>
+        <div class="sticker-body">
+          <span class="sticker-label">Accession number</span>
+          <strong id="sticker-number" class="display">000184</strong>
+          <svg id="hero-barcode" role="img" aria-label="Barcode for the number you typed"></svg>
         </div>
       </div>
-      <div class="specimen" aria-label="A preview of a library barcode label">
-        <div class="specimen-top"><span>COLLECTION SERVICES</span><span>SPECIMEN / 001</span></div>
-        <div class="specimen-rule"></div>
-        <div class="specimen-record">
-          <span class="specimen-kicker">ITEM IDENTIFICATION</span>
-          <strong>Accession label</strong>
-          <div class="specimen-data"><span>ACCESSION NO.</span><b>000184</b></div>
-          <div class="specimen-barcode"><svg id="hero-barcode" role="img" aria-label="Sample barcode for accession number 000184"></svg></div>
-          <div class="specimen-foot"><span>LIBRARY TOOLKIT</span><span>CODE 128</span></div>
-        </div>
-        <div class="specimen-bottom"><span>PRINT-READY OUTPUT</span><span>01 / 25 TOOLS</span></div>
-        <span class="specimen-corner" aria-hidden="true">+</span>
-      </div>
+      <label class="try-field"><span>Type any number to see its barcode</span><input id="try-input" type="text" value="000184" maxlength="14" autocomplete="off" spellcheck="false"></label>
     </div>
-    <div class="intro-meta"><span>BUILT AROUND EVERYDAY LIBRARY TASKS</span><span><b>01</b> / 04 CATEGORIES</span></div>
+  </section>
+</div>
+
+<main>
+  <section class="directory wrap" id="tools" aria-labelledby="tools-title">
+    <div class="dir-head">
+      <h2 id="tools-title" class="display">All tools</h2>
+      <p>${readyCount} ready to use now, ${tools.length-readyCount} more on the way. Planned tools are marked so you know what works today.</p>
+    </div>
+    <div class="controls">
+      <div class="chips" role="group" aria-label="Filter tools by category">
+        <button class="chip is-active" type="button" data-filter="all" aria-pressed="true">All <span class="chip-count">${tools.length}</span></button>
+        ${categories.map(c=>'<button class="chip" type="button" data-filter="'+c.id+'" data-cat="'+c.id+'" aria-pressed="false"><i aria-hidden="true"></i>'+escapeHtml(c.name)+' <span class="chip-count">'+categoryCount(c.id)+'</span></button>').join("")}
+      </div>
+      <label class="search">${searchIcon}<span class="visually-hidden">Search tools</span><input id="tool-search" type="search" placeholder="Search tools" autocomplete="off" title="Press / to search"></label>
+    </div>
+    <p id="result-count" class="result-count" role="status"></p>
+    <div id="groups"></div>
+    <div id="empty-state" class="empty" hidden>
+      <p>No tools match your search.</p>
+      <button id="clear-filters" class="btn-text" type="button">Show all tools</button>
+    </div>
   </section>
 
-  <section class="directory section-wrap" id="directory">
-    <div class="directory-heading">
-      <div><p class="overline"><span class="overline-rule"></span> THE WORKBENCH</p><h2>Find the right tool.</h2></div>
-      <p class="directory-summary"><strong>25</strong> focused utilities across four parts of library work. One is ready now; more are being built.</p>
-    </div>
-    <div class="directory-controls">
-      <div class="category-tabs" role="group" aria-label="Filter tools by category">
-        <button class="category-tab is-active" data-filter="all">All <span>25</span></button>
-        ${categories.map(c=>`<button class="category-tab" data-filter="${c.id}">${escapeHtml(c.name)}</button>`).join("")}
+  <section class="about" id="about" aria-labelledby="about-title">
+    <div class="wrap about-grid">
+      <h2 id="about-title" class="display">Open it, use it, print it.</h2>
+      <div class="points">
+        <div><h3>Nothing to install</h3><p>Every tool opens in your browser. There is no account to make and nothing to download.</p></div>
+        <div><h3>Your data stays with you</h3><p>Lists and files are processed on your own computer. Nothing is sent to a server.</p></div>
+        <div><h3>Made for print</h3><p>Set sizes, columns and gaps, then print or save as PDF at the scale your printer needs.</p></div>
       </div>
-      <label class="search-field">${icon("search")}<span class="visually-hidden">Search tools</span><input id="tool-search" type="search" placeholder="Search the toolkit" autocomplete="off"><kbd>/</kbd></label>
-    </div>
-    <div class="list-head"><span>NO.</span><span>TOOL</span><span>AREA</span><span>STATUS</span><span></span></div>
-    <div id="tool-list" class="tool-list">${tools.map(toolRow).join("")}</div>
-    <div id="empty-state" class="empty-state" hidden>No tools found. Try a different search.</div>
-    <div class="directory-foot"><span id="result-count">Showing all 25 tools</span><button id="show-all" type="button">Show all categories <span>↗</span></button></div>
-  </section>
-
-  <section class="working-note" id="how-it-works">
-    <div class="working-note-number">01—03</div>
-    <div class="working-note-copy"><p class="overline">A NOTE ON HOW IT WORKS</p><h2>Made to do a job.<br><em>Then get out of your way.</em></h2></div>
-    <div class="working-points">
-      <div><b>01</b><p><strong>Open and use</strong><span>No sign-up or installation. Open a tool and get to work.</span></p></div>
-      <div><b>02</b><p><strong>Your files stay local</strong><span>Tools that handle files are designed to process them in your browser.</span></p></div>
-      <div><b>03</b><p><strong>Print when ready</strong><span>Prepare clean output for your library's everyday workflow.</span></p></div>
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
-  <div class="footer-main">
-    <a class="wordmark footer-wordmark" href="#top"><span class="wordmark-stamp">LT</span><span class="wordmark-text">LIBRARY <b>TOOLKIT</b><small>THE LIBRARIAN'S WORKBENCH</small></span></a>
+  <div class="wrap footer-inner">
+    <a class="wordmark" href="#top" aria-label="Library Toolkit, back to top">${mark}<span>Library Toolkit</span></a>
     <p>Independent tools for the people who keep libraries running.</p>
-    <a class="footer-github" href="https://github.com/melvinvarghese/Library-Toolkit" target="_blank" rel="noreferrer">View the project on GitHub ↗</a>
+    <nav class="footer-links" aria-label="Project links">
+      <a href="${REPO}" target="_blank" rel="noreferrer">Source on GitHub</a>
+      <a href="${REPO}/issues" target="_blank" rel="noreferrer">Suggest a tool</a>
+    </nav>
   </div>
-  <div class="footer-bottom"><span>© ${new Date().getFullYear()} Library Toolkit</span><span>Built for library work, one useful tool at a time.</span></div>
+  <div class="wrap footer-base">&copy; ${new Date().getFullYear()} Library Toolkit</div>
 </footer>`;
 
-try { JsBarcode("#hero-barcode","000184",{format:"CODE128",width:1.45,height:48,displayValue:false,margin:0,lineColor:"#202722",background:"#fff"}); } catch { /* keep the specimen frame if barcode rendering is unavailable */ }
+const tryInput=root.querySelector<HTMLInputElement>("#try-input")!;
+const stickerNumber=root.querySelector<HTMLElement>("#sticker-number")!;
+const heroSvg=root.querySelector<SVGSVGElement>("#hero-barcode")!;
+function drawSticker(){
+  const value=tryInput.value.trim();
+  stickerNumber.textContent=value||"Type a number";
+  heroSvg.style.visibility=value?"visible":"hidden";
+  if(!value) return;
+  try{
+    JsBarcode("#hero-barcode",value,{format:"CODE128",width:2,height:64,displayValue:false,margin:0,lineColor:"#0c1535",background:"transparent"});
+  }catch{
+    heroSvg.style.visibility="hidden";
+  }
+}
+tryInput.addEventListener("input",drawSticker);
+drawSticker();
 
 let activeFilter="all",query="";
-const list=document.querySelector<HTMLDivElement>("#tool-list")!;
-const count=document.querySelector<HTMLSpanElement>("#result-count")!;
-const empty=document.querySelector<HTMLDivElement>("#empty-state")!;
-const search=document.querySelector<HTMLInputElement>("#tool-search")!;
+const groups=root.querySelector<HTMLDivElement>("#groups")!;
+const count=root.querySelector<HTMLParagraphElement>("#result-count")!;
+const empty=root.querySelector<HTMLDivElement>("#empty-state")!;
+const search=root.querySelector<HTMLInputElement>("#tool-search")!;
+const chips=root.querySelectorAll<HTMLButtonElement>(".chip");
+
 function renderTools(){
-  const matches=tools.filter(t=>(activeFilter==="all"||t.category===activeFilter)&&[t.name,t.description,...t.tags].join(" ").toLowerCase().includes(query.toLowerCase()));
-  list.innerHTML=matches.map(toolRow).join("");
-  count.textContent="Showing "+matches.length+" of "+tools.length+" tools";
+  const q=query.toLowerCase();
+  const matches=tools.filter(t=>(activeFilter==="all"||t.category===activeFilter)&&(!q||[t.name,t.description,...t.tags].join(" ").toLowerCase().includes(q)));
+  groups.innerHTML=renderGroups(matches);
+  count.textContent=matches.length===tools.length?"Showing all "+tools.length+" tools":"Showing "+matches.length+" of "+tools.length+" tools";
   empty.hidden=matches.length!==0;
-  list.hidden=matches.length===0;
-  document.querySelectorAll<HTMLButtonElement>(".category-tab").forEach(button=>button.classList.toggle("is-active",button.dataset.filter===activeFilter));
+  chips.forEach(chip=>{
+    const on=chip.dataset.filter===activeFilter;
+    chip.classList.toggle("is-active",on);
+    chip.setAttribute("aria-pressed",String(on));
+  });
 }
-document.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach(button=>button.addEventListener("click",()=>{
-  activeFilter=button.dataset.filter??"all";renderTools();
-}));
+chips.forEach(chip=>chip.addEventListener("click",()=>{activeFilter=chip.dataset.filter??"all";renderTools();}));
 search.addEventListener("input",()=>{query=search.value.trim();renderTools();});
-document.querySelector<HTMLButtonElement>("#show-all")!.addEventListener("click",()=>{
+root.querySelector<HTMLButtonElement>("#clear-filters")!.addEventListener("click",()=>{
   activeFilter="all";query="";search.value="";renderTools();
 });
+renderTools();
+
+let lastFocus:HTMLElement|null=null;
+function closeOverlay(){
+  document.querySelector("#barcode-tool-overlay")?.remove();
+  lastFocus?.focus();
+  lastFocus=null;
+}
+
 document.addEventListener("keydown",event=>{
-  if(event.key==="/"&&document.activeElement!==search){event.preventDefault();search.focus();}
-  if(event.key==="Escape"){search.blur();if(search.value){search.value="";query="";renderTools();}}
+  if(event.key==="Escape"&&document.querySelector("#barcode-tool-overlay")){closeOverlay();return;}
+  const tag=document.activeElement?.tagName??"";
+  const typing=tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT";
+  if(event.key==="/"&&!typing&&!document.querySelector("#barcode-tool-overlay")){event.preventDefault();search.focus();}
+  if(event.key==="Escape"&&document.activeElement===search){
+    if(search.value){search.value="";query="";renderTools();}
+    search.blur();
+  }
 });
-const menu=document.querySelector<HTMLButtonElement>(".mobile-menu-button")!;
-const mobile=document.querySelector<HTMLElement>(".mobile-nav")!;
-menu.addEventListener("click",()=>{
-  const open=menu.getAttribute("aria-expanded")==="true";
-  menu.setAttribute("aria-expanded",String(!open));
-  menu.setAttribute("aria-label",open?"Open navigation":"Close navigation");
-  menu.innerHTML=icon(open?"menu":"close");
-  mobile.classList.toggle("is-open",!open);
-});
-mobile.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{
-  menu.setAttribute("aria-expanded","false");menu.setAttribute("aria-label","Open navigation");
-  menu.innerHTML=icon("menu");mobile.classList.remove("is-open");
-}));
+
 document.addEventListener("click",event=>{
-  const target=event.target as HTMLElement;
-  if(!target.closest('[data-tool="continuous-barcode"]')||document.querySelector("#barcode-tool-overlay"))return;
+  const trigger=(event.target as HTMLElement).closest<HTMLElement>("[data-tool]");
+  if(!trigger||trigger.dataset.tool!=="continuous-barcode"||document.querySelector("#barcode-tool-overlay")) return;
+  lastFocus=trigger;
   const overlay=document.createElement("div");
-  overlay.id="barcode-tool-overlay";overlay.className="barcode-tool-overlay";
+  overlay.id="barcode-tool-overlay";
+  overlay.className="barcode-tool-overlay";
   overlay.innerHTML='<div class="barcode-tool-dialog" role="dialog" aria-modal="true" aria-label="Continuous barcode generator"></div>';
-  app.append(overlay);
-  mountContinuousBarcode(overlay.querySelector(".barcode-tool-dialog")!,()=>overlay.remove());
-  overlay.addEventListener("click",e=>{if(e.target===overlay)overlay.remove();});
+  root.append(overlay);
+  mountContinuousBarcode(overlay.querySelector<HTMLElement>(".barcode-tool-dialog")!,closeOverlay);
+  overlay.addEventListener("click",e=>{if(e.target===overlay)closeOverlay();});
+  overlay.querySelector<HTMLInputElement>("input")?.focus();
 });
