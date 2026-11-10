@@ -1,10 +1,11 @@
 import "./styles.css";
+import {mountContinuousBarcode} from "./barcode";
 import {categories,tools,type Tool} from "./data/tools";
 const app=document.querySelector<HTMLDivElement>("#app");if(!app)throw new Error("Application root was not found.");
 const paths:Record<string,string>={search:'<circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path>',arrow:'<path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path>',menu:'<path d="M4 7h16M4 12h16M4 17h16"></path>',close:'<path d="m18 6-12 12M6 6l12 12"></path>',file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M8 13h8M8 17h8"></path>'};
 const icon=(n:string)=>'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(paths[n]??paths.book)+'</svg>';
 const label=(s:Tool["status"])=>s==="available"?"Available":s==="in-progress"?"In progress":"Coming soon";
-function card(t:Tool){const c=categories.find(x=>x.id===t.category);return '<article class="tool-card"><div class="tool-card-top"><span class="tool-icon">'+(c?.icon??"▦")+'</span><span class="status status-'+t.status+'">'+label(t.status)+'</span></div><h3>'+t.name+'</h3><p>'+t.description+'</p><div class="tool-card-bottom"><div class="tag-list">'+t.tags.slice(0,2).map(x=>'<span>'+x+'</span>').join("")+'</div><span class="card-arrow">'+icon("arrow")+'</span></div></article>'}
+function card(t:Tool){const c=categories.find(x=>x.id===t.category);const ready=t.status==="available";return '<article class="tool-card '+(ready?'tool-card-ready':'')+'" '+(ready?'data-tool="'+t.id+'" tabindex="0" role="button" aria-label="Open '+t.name+'"':'')+'><div class="tool-card-top"><span class="tool-icon">'+(c?.icon??"▦")+'</span><span class="status status-'+t.status+'">'+label(t.status)+'</span></div><h3>'+t.name+'</h3><p>'+t.description+'</p><div class="tool-card-bottom"><div class="tag-list">'+t.tags.slice(0,2).map(x=>'<span>'+x+'</span>').join("")+'</div><span class="card-arrow">'+icon("arrow")+'</span></div></article>'}
 function category(c:typeof categories[number]){const n=tools.filter(t=>t.category===c.id).length;return '<button class="category-card" data-category="'+c.id+'"><span class="category-icon">'+c.icon+'</span><span class="category-copy"><strong>'+c.name+'</strong><small>'+c.description+'</small><em>'+n+' tools planned</em></span><span class="category-arrow">'+icon("arrow")+'</span></button>'}
 app.innerHTML=`
 <header class="site-header"><div class="header-inner"><a class="brand" href="#home"><span class="brand-mark">${icon("book")}</span><span class="brand-name">library<span>toolkit</span><small>TOOLS FOR LIBRARIANS</small></span></a><nav class="desktop-nav"><a class="nav-link active" href="#home">Home</a><a class="nav-link" href="#tools">All tools</a><a class="nav-link" href="#about">About</a></nav><a class="header-cta" href="#tools">Explore tools <span>${icon("arrow")}</span></a><button class="mobile-menu-button" aria-label="Open navigation" aria-expanded="false">${icon("menu")}</button></div><nav class="mobile-nav"><a href="#home">Home</a><a href="#tools">All tools</a><a href="#about">About</a></nav></header>
@@ -22,3 +23,20 @@ document.querySelectorAll<HTMLButtonElement>("[data-category]").forEach(b=>b.add
 search.addEventListener("input",()=>{q=search.value.trim();render()});document.querySelector<HTMLButtonElement>("#view-all")!.addEventListener("click",()=>{all=!all;render()});
 document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==search){e.preventDefault();search.focus()}if(e.key==="Escape")search.blur()});
 const menu=document.querySelector<HTMLButtonElement>(".mobile-menu-button")!,mobile=document.querySelector<HTMLElement>(".mobile-nav")!;menu.addEventListener("click",()=>{const opened=menu.getAttribute("aria-expanded")==="true";menu.setAttribute("aria-expanded",String(!opened));menu.innerHTML=icon(opened?"menu":"close");mobile.classList.toggle("open",!opened)});mobile.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{menu.setAttribute("aria-expanded","false");menu.innerHTML=icon("menu");mobile.classList.remove("open")}));
+document.addEventListener("click", event => {
+  const target = event.target as HTMLElement;
+  const card = target.closest<HTMLElement>('[data-tool="continuous-barcode"]');
+  if (!card || document.querySelector("#barcode-tool-overlay")) return;
+  const overlay = document.createElement("div");
+  overlay.id = "barcode-tool-overlay";
+  overlay.className = "barcode-tool-overlay";
+  overlay.innerHTML = '<div class="barcode-tool-dialog" role="dialog" aria-modal="true" aria-label="Continuous barcode generator"></div>';
+  app.append(overlay);
+  mountContinuousBarcode(overlay.querySelector(".barcode-tool-dialog")!, () => overlay.remove());
+  overlay.addEventListener("click", e => { if (e.target === overlay) overlay.remove(); });
+});
+document.addEventListener("keydown", event => {
+  if ((event.key === "Enter" || event.key === " ") && (event.target as HTMLElement).matches('[data-tool="continuous-barcode"]')) {
+    event.preventDefault(); (event.target as HTMLElement).click();
+  }
+});
