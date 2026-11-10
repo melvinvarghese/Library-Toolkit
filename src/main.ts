@@ -47,7 +47,7 @@ root.innerHTML=`
   <section class="hero" id="top" aria-labelledby="hero-title">
     <div class="hero-copy">
       <h1 id="hero-title" class="display">Barcodes, labels and records for your library.</h1>
-      <p class="lede">Free tools for librarians and library students. There is nothing to install and no account to make, and everything runs in your browser.</p>
+      <p class="lede">Free tools for librarians and library students. No installation or account required..</p>
       <div class="hero-actions">
         <a class="btn btn-yellow" href="#tools">Browse the tools</a>
         <button class="btn-link" type="button" data-tool="continuous-barcode">Open the barcode generator</button>
