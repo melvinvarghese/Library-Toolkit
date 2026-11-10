@@ -85,6 +85,7 @@ export function mountContinuousBarcode(container: HTMLElement, onClose: () => vo
     sheet.style.setProperty("--barcode-gap-y", gapY + "mm");
     for (const value of values) {
       const item = document.createElement("div"); item.className = "barcode-item";
+      if (heading) { const label = document.createElement("div"); label.className = "barcode-item-heading"; label.textContent = heading; item.append(label); }
       const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       item.append(svg);
       try {
