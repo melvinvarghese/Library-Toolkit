@@ -5,8 +5,11 @@ import {parseCsv} from "./batch2-utils.mjs";
 import {cleanCsvTable,formatCsvTable,formatTextLines,mapCsvColumns,serializeCsv} from "./data-tools-utils.mjs";
 
 type Table={headers:string[];rows:string[][]};
-const root=document.querySelector<HTMLElement>("#tool-app");
-if(!root)throw new Error("Tool page container was not found.");
+type CaseMode="none"|"upper"|"lower"|"title";
+type SortMode="none"|"ascending"|"descending";
+const appRoot=document.querySelector<HTMLElement>("#tool-app");
+if(!appRoot)throw new Error("Tool page container was not found.");
+const root:HTMLElement=appRoot;
 const kind=root.dataset.tool||"csv-viewer";
 const config:Record<string,{title:string;intro:string}>={
   "csv-viewer":{title:"CSV Viewer",intro:"Open a CSV, search its rows, and check the headings before using the data."},
@@ -46,12 +49,12 @@ function readCsv():Table{
 function process(){
   ready=false;
   try{
-    if(isText){const result=formatTextLines($<HTMLTextAreaElement>("text-input").value,{unique:$<HTMLInputElement>("unique-lines").checked,sort:$<HTMLSelectElement>("sort-mode").value,caseMode:$<HTMLSelectElement>("case-mode").value});preview.innerHTML=`<pre class="data-text-output">${esc(result)}</pre>`;output={headers:["Value"],rows:result?result.split("\n").map(line=>[line]):[]};summary.textContent=`${output.rows.length} lines`;ready=true;setStatus("Text preview is ready.");return;}
+    if(isText){const result=formatTextLines($<HTMLTextAreaElement>("text-input").value,{unique:$<HTMLInputElement>("unique-lines").checked,sort:$<HTMLSelectElement>("sort-mode").value as SortMode,caseMode:$<HTMLSelectElement>("case-mode").value as CaseMode});preview.innerHTML=`<pre class="data-text-output">${esc(result)}</pre>`;output={headers:["Value"],rows:result?result.split("\n").map(line=>[line]):[]};summary.textContent=`${output.rows.length} lines`;ready=true;setStatus("Text preview is ready.");return;}
     const source=readCsv();let result:Table;
     if(kind==="csv-viewer"){result=source;}
     else if(kind==="csv-cleaner"){result=cleanCsvTable(source,{removeDuplicates:$<HTMLInputElement>("remove-duplicates").checked});}
     else if(kind==="csv-mapper"){const rows=[...root.querySelectorAll<HTMLSelectElement>("[data-source]")],targets=[...root.querySelectorAll<HTMLInputElement>("[data-target]")];result=mapCsvColumns(source,rows.map((select,i)=>({source:source.headers[Number(select.value)],target:targets[i].value})));}
-    else {const chosen=[...root.querySelectorAll<HTMLElement>("#chosen-columns li")].map(item=>Number(item.dataset.index));result=formatCsvTable(source,{order:chosen,caseMode:$<HTMLSelectElement>("#case-mode").value});const renamed=new Map([...root.querySelectorAll<HTMLInputElement>("[data-rename]")].map(input=>[Number(input.dataset.rename),input.value.trim()]));result.headers=chosen.map((index,i)=>renamed.has(index)?renamed.get(index)!:result.headers[i]);if(result.headers.some(header=>!header))throw new Error("Output column names cannot be blank.");if(new Set(result.headers.map(header=>header.toLocaleLowerCase())).size!==result.headers.length)throw new Error("Output column names must be unique.");}
+    else {const chosen=[...root.querySelectorAll<HTMLElement>("#chosen-columns li")].map(item=>Number(item.dataset.index));result=formatCsvTable(source,{order:chosen,caseMode:$<HTMLSelectElement>("#case-mode").value as CaseMode});const renamed=new Map([...root.querySelectorAll<HTMLInputElement>("[data-rename]")].map(input=>[Number(input.dataset.rename),input.value.trim()]));result.headers=chosen.map((index,i)=>renamed.has(index)?renamed.get(index)!:result.headers[i]);if(result.headers.some(header=>!header))throw new Error("Output column names cannot be blank.");if(new Set(result.headers.map(header=>header.toLocaleLowerCase())).size!==result.headers.length)throw new Error("Output column names must be unique.");}
     output=result;renderTable(result);ready=true;setStatus(kind==="csv-viewer"?"CSV preview is ready.":"Review the output, then download the cleaned CSV.");
   }catch(error){preview.innerHTML=`<p class="batch-error">${esc(error instanceof Error?error.message:"Check the data and try again.")}</p>`;summary.textContent="Preview needs attention.";setStatus("Check the data and options.");}
 }

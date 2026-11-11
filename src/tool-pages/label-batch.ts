@@ -15,6 +15,7 @@ root.innerHTML=`<section class="batch-tool label-batch"><header class="batch-too
 const $=<T extends HTMLElement>(id:string)=>root.querySelector<T>("#"+id)!;
 const input=(id:string)=>root.querySelector<HTMLInputElement>("#"+id)?.value.trim()||"";
 const status=$<HTMLParagraphElement>("label-status"),preview=$<HTMLDivElement>("label-preview"),summary=$<HTMLParagraphElement>("label-summary");
+const setStatus=(message:string)=>{status.textContent=message;};
 let table:{headers:string[];rows:string[][]}|null=null,ready=false;
 const schemas:Record<string,{key:string;aliases:string[]}[]>={
   "spine-label":[{key:"class",aliases:["callnumber","classification","classno"]},{key:"cutter",aliases:["cutter","authornumber"]},{key:"accession",aliases:["accession","accessionno","accessionnumber"]}],
@@ -47,14 +48,14 @@ function render(){
       for(const text of lines){const line=document.createElement("span");line.textContent=text;label.append(line);}
       sheet.append(label);
     }
-    preview.replaceChildren(sheet);ready=true;summary.textContent=`${records.length} labels · ${layout.width} × ${layout.height} mm · ${layout.columns} columns`;status("Preview generated. Check a sample at actual size before printing a full batch.");
-  }catch(error){preview.innerHTML=`<p class="batch-error">${esc(error instanceof Error?error.message:"Could not make these labels.")}</p>`;summary.textContent="Preview could not be created.";status("Check the data and label settings.");}
+    preview.replaceChildren(sheet);ready=true;summary.textContent=`${records.length} labels · ${layout.width} × ${layout.height} mm · ${layout.columns} columns`;setStatus("Preview generated. Check a sample at actual size before printing a full batch.");
+  }catch(error){preview.innerHTML=`<p class="batch-error">${esc(error instanceof Error?error.message:"Could not make these labels.")}</p>`;summary.textContent="Preview could not be created.";setStatus("Check the data and label settings.");}
 }
 $<HTMLFormElement>("label-form").addEventListener("submit",event=>{event.preventDefault();render();});
-$<HTMLButtonElement>("label-print").addEventListener("click",()=>{if(!ready){status("Generate a valid preview before printing.");return;}window.print();});
+$<HTMLButtonElement>("label-print").addEventListener("click",()=>{if(!ready){setStatus("Generate a valid preview before printing.");return;}window.print();});
 if(isCsv){
   const textarea=$<HTMLTextAreaElement>("label-input");
   textarea.addEventListener("input",()=>{table=null;});
-  $<HTMLInputElement>("label-file").addEventListener("change",async event=>{const file=(event.currentTarget as HTMLInputElement).files?.[0];if(!file)return;if(file.size>5*1024*1024){status("Choose a CSV file smaller than 5 MB.");return;}try{textarea.value=await file.text();table=parseCsv(textarea.value);status(`${table.rows.length} CSV records loaded.`);}catch(error){table=null;status(error instanceof Error?error.message:"The CSV could not be read.");}});
+  $<HTMLInputElement>("label-file").addEventListener("change",async event=>{const file=(event.currentTarget as HTMLInputElement).files?.[0];if(!file)return;if(file.size>5*1024*1024){setStatus("Choose a CSV file smaller than 5 MB.");return;}try{textarea.value=await file.text();table=parseCsv(textarea.value);setStatus(`${table.rows.length} CSV records loaded.`);}catch(error){table=null;setStatus(error instanceof Error?error.message:"The CSV could not be read.");}});
 }
 if(isAccession){$<HTMLSelectElement>("accession-mode").addEventListener("change",event=>{const sequence=(event.currentTarget as HTMLSelectElement).value==="sequence";$<HTMLDivElement>("accession-sequence").hidden=!sequence;$<HTMLLabelElement>("accession-values-field").hidden=sequence;});}
