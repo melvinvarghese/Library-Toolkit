@@ -13,7 +13,7 @@ const copy: Record<ToolKind, {title: string; description: string}> = {
   "csv-to-pdf": {title: "CSV to PDF", description: "Preview a CSV table and use your browser’s print dialog to save it as a PDF."},
 };
 
-const root = document.querySelector<HTMLElement>("#tool-app");
+const root = document.querySelector<HTMLElement>("#tool-app")!;
 if (!root) throw new Error("Tool page container was not found.");
 const kind = root.dataset.tool as ToolKind;
 const tool = copy[kind];

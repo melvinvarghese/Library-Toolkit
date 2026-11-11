@@ -12,9 +12,27 @@ const pages = [
   {id: "stock-verification", file: "library/stock-verification/index.html", url: "library/stock-verification"},
   {id: "member-card", file: "library/member-card/index.html", url: "library/member-card"},
   {id: "csv-to-pdf", file: "data/csv-to-pdf/index.html", url: "data/csv-to-pdf"},
+  {id: "fine-calculator", file: "library/fine-calculator/index.html", url: "library/fine-calculator"},
+  {id: "shelf-label", file: "labels/shelf/index.html", url: "labels/shelf"},
+  {id: "qr-label", file: "labels/qr-code/index.html", url: "labels/qr-code"},
+  {id: "annual-report", file: "library/annual-report/index.html", url: "library/annual-report"},
+  {id: "csv-barcode", file: "barcode/csv/index.html", url: "barcode/csv"},
+  {id: "member-barcode", file: "barcode/member/index.html", url: "barcode/member"},
+  {id: "barcode-sheet", file: "barcode/sheet/index.html", url: "barcode/sheet"},
+  {id: "spine-label", file: "labels/spine-csv/index.html", url: "labels/spine-csv"},
+  {id: "four-line-label", file: "labels/four-line/index.html", url: "labels/four-line"},
+  {id: "book-label", file: "labels/book/index.html", url: "labels/book"},
+  {id: "accession-label", file: "labels/accession/index.html", url: "labels/accession"},
+  {id: "label-designer", file: "labels/designer/index.html", url: "labels/designer"},
+  {id: "ddc-helper", file: "library/ddc-helper/index.html", url: "library/ddc-helper"},
+  {id: "csv-viewer", file: "data/csv-viewer/index.html", url: "data/csv-viewer"},
+  {id: "csv-mapper", file: "data/csv-mapper/index.html", url: "data/csv-mapper"},
+  {id: "csv-cleaner", file: "data/csv-cleaner/index.html", url: "data/csv-cleaner"},
+  {id: "csv-formatter", file: "data/csv-formatter/index.html", url: "data/csv-formatter"},
+  {id: "text-formatter", file: "data/text-formatter/index.html", url: "data/text-formatter"},
 ];
 
-test("all Batch 2 pages have unique titles, canonicals, and a resolvable app entry", async () => {
+test("all registered tool pages have unique titles, canonicals, and a resolvable app entry", async () => {
   const titles = new Set();
   for (const page of pages) {
     const html = await readFile(path.join(root, page.file), "utf8");
@@ -24,6 +42,10 @@ test("all Batch 2 pages have unique titles, canonicals, and a resolvable app ent
     assert.ok(title, page.file + " has a title");
     assert.ok(!titles.has(title), page.file + " title is unique");
     assert.equal(canonical, "https://melvinvarghese.github.io/Library-Toolkit/" + page.url + "/");
+    assert.match(html, /<meta name="description" content="[^"]+"/);
+    assert.match(html, /property="og:title"/);
+    assert.match(html, /application\/ld\+json/);
+    assert.doesNotMatch(html, /name="robots"[^>]*noindex/i);
     assert.match(html, new RegExp('data-tool="' + page.id + '"'));
     assert.ok(script, page.file + " loads its tool");
     await readFile(path.resolve(root, path.dirname(page.file), script), "utf8");
@@ -45,6 +67,13 @@ test("every new route is in the homepage directory, Vite build inputs, and sitem
     assert.ok(vite.includes('"' + page.file + '"'), page.id + " is included in the build");
     assert.ok(sitemap.includes("https://melvinvarghese.github.io/Library-Toolkit" + url), page.id + " is listed in the sitemap");
   }
+});
+
+test("tool URLs and sitemap entries are unique", async () => {
+  const sitemap = await readFile(path.join(root, "public/sitemap.xml"), "utf8");
+  const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
+  assert.equal(new Set(urls).size, urls.length, "sitemap URLs are unique");
+  assert.equal(new Set(pages.map(page => page.url)).size, pages.length, "tool routes are unique");
 });
 
 test("robots.txt points to the hosted sitemap", async () => {

@@ -14,7 +14,7 @@ Free, practical browser-based utilities for librarians, library assistants and l
 - Library utilities: accession registers, purchase lists, stock verification and calculators
 - Data utilities: CSV viewing, cleaning, mapping, formatting and PDF export
 
-The responsive homepage and tool directory list 26 utilities. Ten tools are available now: continuous, custom and ISBN barcode generators; spine labels; an accession register formatter; a book purchase list formatter; a book price calculator; a stock verification sheet; a member card maker; and CSV-to-PDF printing. Remaining tools are marked planned until they are implemented and tested.
+The responsive homepage and tool directory list 42 utilities, with 28 available tools. The latest additions cover barcode sheets, CSV-based labels, accession labels, a DDC spine label helper, and CSV and text cleanup workflows.
 
 ## Development
 Requires Node.js 20+ and npm.

@@ -15,10 +15,28 @@
   <url><loc>https://melvinvarghese.github.io/Library-Toolkit/barcode/isbn/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://melvinvarghese.github.io/Library-Toolkit/barcode/custom/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://melvinvarghese.github.io/Library-Toolkit/labels/spine/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/labels/shelf/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/labels/qr-code/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://melvinvarghese.github.io/Library-Toolkit/library/accession-register/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://melvinvarghese.github.io/Library-Toolkit/library/purchase-list/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://melvinvarghese.github.io/Library-Toolkit/library/price-calculator/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://melvinvarghese.github.io/Library-Toolkit/library/stock-verification/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/library/fine-calculator/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/library/annual-report/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://melvinvarghese.github.io/Library-Toolkit/library/member-card/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://melvinvarghese.github.io/Library-Toolkit/data/csv-to-pdf/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/barcode/csv/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/barcode/member/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/barcode/sheet/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/labels/spine-csv/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/labels/four-line/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/labels/book/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/labels/accession/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/labels/designer/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/library/ddc-helper/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/data/csv-viewer/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/data/csv-mapper/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/data/csv-cleaner/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/data/csv-formatter/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://melvinvarghese.github.io/Library-Toolkit/data/text-formatter/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

@@ -1,0 +1,66 @@
+.batch3-tool .batch-field input[type="file"]{height:auto;padding:8px}
+.batch-check{display:flex;gap:9px;align-items:center;margin:12px 0 18px;font-size:14px;font-weight:600}
+.batch-check input{width:18px;height:18px;accent-color:var(--blue)}
+.batch3-preview{min-height:260px;background:#e8eaf0;padding:14px;overflow:auto}
+.member-card-sheet,.shelf-label-sheet,.qr-sheet{display:flex;flex-wrap:wrap;align-items:flex-start;gap:5mm}
+.member-card-pair{display:flex;flex-wrap:wrap;gap:4mm;break-inside:avoid;page-break-inside:avoid}
+.member-card{position:relative;display:flex;flex-direction:column;flex:0 0 auto;overflow:hidden;border:1px solid #aab3c9;border-radius:2mm;background:white;color:#0c1535;box-shadow:0 2px 8px #0c153522}
+.member-card>header{display:flex;align-items:center;gap:7px;min-height:12mm;padding:2mm 3mm;background:#1a3fd0;color:#fff;font-size:10pt}
+.member-card>header img{width:9mm;height:9mm;object-fit:contain;background:#fff;border-radius:2px}
+.member-card-content{display:flex;gap:3mm;padding:3mm;min-height:22mm;align-items:center}
+.member-card-content strong{display:block;font-size:12pt;line-height:1.2;overflow-wrap:anywhere}
+.member-card-content p,.member-card-content small{display:block;margin-top:1mm;color:#525d78;font-size:8pt;overflow-wrap:anywhere}
+.member-card-content b{display:block;margin-top:1mm;font-size:9pt;overflow-wrap:anywhere}
+.member-photo{width:17mm;height:20mm;flex:0 0 auto;object-fit:cover;border:1px solid #bbc1ce;border-radius:1mm}
+.member-card-barcode{margin:auto 3mm 2mm;max-height:9mm;overflow:hidden}
+.member-card-barcode svg{height:8mm;max-width:100%}
+.member-card-back{background:#f7f8fb}
+.member-back-copy{padding:4mm;font-size:9pt;line-height:1.45}
+.member-back-copy p{margin-top:2mm}
+.member-back-copy small{display:block;margin-top:3mm;color:#525d78}
+.shelf-label-sheet{display:grid;grid-template-columns:repeat(var(--label-cols),max-content);gap:4mm;justify-content:start}
+.shelf-label{display:flex;flex-direction:column;justify-content:center;gap:1.5mm;flex:0 0 auto;max-width:180mm;padding:3mm;border:1px solid #0c1535;background:#fff;text-align:center;overflow:hidden;overflow-wrap:anywhere;break-inside:avoid;page-break-inside:avoid}
+.shelf-label strong{font-size:1.35em;line-height:1.05}
+.shelf-label b{font-size:1em;line-height:1.1}
+.shelf-label span,.shelf-label small{font-size:.75em;line-height:1.15}
+.fine-receipt,.annual-report{max-width:190mm;margin:0 auto;padding:12mm;background:#fff;color:#15203b}
+.report-masthead{padding-bottom:8mm;margin-bottom:8mm;border-bottom:2px solid #1a3fd0;text-align:center}
+.report-masthead>span,.report-masthead>p:first-child{font-size:10pt;font-weight:750;letter-spacing:.12em;color:#1a3fd0}
+.report-masthead h2{margin:3mm 0;font-size:23pt}
+.report-masthead h3{margin:0 0 2mm;font-size:16pt}
+.report-masthead p{margin-top:2mm;color:#525d78}
+.annual-report section{margin-top:8mm}
+.annual-report section h3,.fine-receipt h3{margin-bottom:3mm;padding-bottom:2mm;border-bottom:1px solid #bbc1ce;font-size:14pt}
+.annual-report table,.fine-receipt table{width:100%;border-collapse:collapse;background:white}
+.annual-report th,.annual-report td,.fine-receipt th,.fine-receipt td{padding:3mm;border:1px solid #c9ced8;text-align:left;vertical-align:top}
+.annual-report thead th{background:#e9edf8}
+.annual-report td,.fine-receipt td{text-align:right;font-variant-numeric:tabular-nums}
+.annual-report .report-intro p,.report-narrative p{line-height:1.65;white-space:normal;overflow-wrap:anywhere}
+.report-logo{display:block;width:24mm;height:24mm;object-fit:contain;margin:0 auto 5mm}
+.report-signoff{margin-top:20mm!important;padding-top:3mm;border-top:1px solid #bbc1ce}
+.receipt-fields{margin:0 0 8mm}
+.receipt-fields>div{display:grid;grid-template-columns:40mm 1fr;gap:4mm;padding:2.5mm 0;border-bottom:1px solid #e0e3e9}
+.receipt-fields dt{font-weight:700}.receipt-fields dd{margin:0;text-align:right;overflow-wrap:anywhere}
+.fine-receipt .total-row{font-size:14pt;font-weight:800;background:#f4f5f7}
+.qr-label{display:flex;flex-direction:column;align-items:center;gap:2mm;max-width:70mm;padding:4mm;background:#fff;border:1px solid #c9ced8;text-align:center;break-inside:avoid;page-break-inside:avoid}
+.qr-label img{width:min(100%,70mm);height:auto;image-rendering:pixelated}
+.qr-label strong,.qr-label small{overflow-wrap:anywhere}
+.qr-label .batch-secondary{min-height:38px}
+.qr-sheet{display:grid;grid-template-columns:repeat(auto-fit,minmax(42mm,1fr));gap:4mm}
+@media(max-width:800px){.batch3-preview{padding:9px}.shelf-label-sheet{grid-template-columns:repeat(2,minmax(0,1fr))}.shelf-label{max-width:100%;width:auto!important}.member-card-sheet,.member-card-pair{max-width:100%}.member-card{max-width:100%}.fine-receipt,.annual-report{padding:7mm}}
+@media(max-width:480px){.batch-check{align-items:flex-start}.qr-sheet{grid-template-columns:repeat(2,minmax(0,1fr))}.receipt-fields>div{grid-template-columns:1fr}.receipt-fields dd{text-align:left}}
+@page{size:A4 portrait;margin:12mm}
+@media print{
+ .batch3-preview{padding:0;overflow:visible;background:white}
+ .member-card-sheet{display:flex;gap:5mm}
+ .member-card-pair{gap:4mm}
+ .member-card{box-shadow:none;border-radius:1mm}
+ .shelf-label-sheet{display:grid;grid-template-columns:repeat(var(--label-cols),max-content);gap:4mm}
+ .shelf-label{max-width:none}
+ .fine-receipt,.annual-report{max-width:none;padding:0}
+ .qr-sheet{grid-template-columns:repeat(3,1fr);gap:4mm}
+ .qr-label .batch-secondary{display:none}
+ .batch3-tool .batch-preview-panel{border:0;padding:0}
+ .batch3-tool .batch-preview-heading{display:none}
+ .batch3-tool .batch-layout{padding:0}
+}
