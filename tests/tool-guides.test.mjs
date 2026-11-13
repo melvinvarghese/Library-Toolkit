@@ -50,3 +50,19 @@ test("all batch 1 guides are included in the Vite build and sitemap", async () =
     assert.ok(sitemap.includes(url), url + " is listed in the sitemap");
   }
 });
+
+test("tool guide directory is discoverable from the homepage and lists every guide in this batch", async () => {
+  const [directory, homepage, vite, sitemap] = await Promise.all([
+    readFile(path.join(root, "tools/index.html"), "utf8"),
+    readFile(path.join(root, "src/main.ts"), "utf8"),
+    readFile(path.join(root, "vite.config.ts"), "utf8"),
+    readFile(path.join(root, "public/sitemap.xml"), "utf8"),
+  ]);
+  assert.ok(homepage.includes('href="/Library-Toolkit/tools/"'), "homepage navigation links to the guide directory");
+  assert.ok(vite.includes('toolGuides: resolve(root, "tools/index.html")'), "directory is included in the Vite build");
+  assert.ok(sitemap.includes("https://melvinvarghese.github.io/Library-Toolkit/tools/"), "directory is listed in the sitemap");
+  for (const guide of guides) {
+    assert.ok(directory.includes("/Library-Toolkit/tools/" + guide.slug + "/"), guide.slug + " is listed in the directory");
+    assert.ok(directory.includes("href=\"/Library-Toolkit" + guide.tool + "\""), guide.slug + " links to its working tool");
+  }
+});
