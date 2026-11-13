@@ -40,6 +40,7 @@ root.innerHTML=`
     <a class="wordmark" href="#top" aria-label="Library Toolkit, home">${mark}<span>Library Toolkit</span></a>
     <nav class="nav" aria-label="Main navigation">
       <a href="#tools">Tools</a>
+      <a href="/Library-Toolkit/tools/">Tool Guides</a>
       <a class="nav-about" href="#about">About</a>
       <a href="${REPO}" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
