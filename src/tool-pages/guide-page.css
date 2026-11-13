@@ -1,0 +1,44 @@
+.guide-page{background:var(--paper);color:var(--ink)}
+.guide-main{max-width:1100px;margin:0 auto;padding:28px 32px 88px}
+.guide-breadcrumb{display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--muted);font-size:14px;padding:8px 0 24px}
+.guide-breadcrumb a{text-decoration:underline;text-decoration-color:rgba(12,21,53,.3);text-underline-offset:3px}
+.guide-hero{background:var(--blue);color:var(--white);padding:clamp(34px,6vw,72px);border-radius:10px}
+.guide-eyebrow{font-size:13px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--yellow);margin-bottom:18px}
+.guide-hero h1{max-width:850px;font-size:clamp(42px,6.5vw,76px);line-height:.98;letter-spacing:-.035em;font-weight:800;margin-bottom:24px}
+.guide-lede{max-width:68ch;font-size:clamp(17px,2vw,20px);line-height:1.6;color:rgba(255,255,255,.9)}
+.guide-hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:18px 24px;margin-top:30px}
+.guide-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:52px;padding:0 22px;background:var(--yellow);color:var(--ink);border-radius:6px;font-weight:800}
+.guide-button:hover{background:#ffe27a}
+.guide-secondary-link{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);text-underline-offset:5px;font-weight:650}
+.guide-trust-note{font-size:13px;color:rgba(255,255,255,.72);margin-top:20px}
+.guide-content{max-width:820px;margin:0 auto;padding-top:48px}
+.guide-content section{padding:28px 0;border-bottom:1px solid var(--line)}
+.guide-content h2{font-size:clamp(25px,3.4vw,34px);line-height:1.12;letter-spacing:-.02em;margin-bottom:16px}
+.guide-content p,.guide-content li{font-size:16px;line-height:1.75;color:#303b57}
+.guide-content ul,.guide-content ol{padding-left:24px;display:grid;gap:9px}
+.guide-content .guide-callout{background:var(--white);border:1px solid var(--line);border-left:7px solid var(--blue);border-radius:8px;padding:28px;margin:28px 0}
+.guide-callout p{margin-bottom:20px}
+.guide-faq details{border-top:1px solid var(--line);padding:17px 0}
+.guide-faq details:last-child{border-bottom:1px solid var(--line)}
+.guide-faq summary{font-size:17px;font-weight:700;cursor:pointer;line-height:1.5}
+.guide-faq details p{padding:12px 0 0}
+.guide-related p{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.guide-related a{font-weight:700;color:var(--blue);text-decoration:underline;text-underline-offset:4px}
+@media(max-width:620px){.guide-main{padding:16px 18px 56px}.guide-hero{padding:30px 24px}.guide-content{padding-top:24px}.guide-content section{padding:23px 0}.guide-hero-actions{align-items:flex-start;flex-direction:column}}
+
+.guide-directory{padding:54px 0 30px}
+.guide-directory-heading{max-width:650px;margin-bottom:26px}
+.guide-directory-heading .guide-eyebrow{color:var(--blue);margin-bottom:8px}
+.guide-directory-heading h2{font-size:clamp(32px,4.4vw,48px);margin-bottom:10px}
+.guide-directory-heading p:last-child{color:var(--muted);line-height:1.65}
+.guide-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.guide-card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:23px;display:flex;flex-direction:column;min-height:210px}
+.guide-card h3{font-size:21px;line-height:1.2;margin-bottom:10px}
+.guide-card h3 a:hover{color:var(--blue);text-decoration:underline;text-underline-offset:4px}
+.guide-card p{color:var(--muted);font-size:15px;line-height:1.6;flex:1}
+.guide-card>div{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px}
+.guide-card>div a{font-size:14px;font-weight:750;color:var(--blue);text-decoration:underline;text-underline-offset:4px}
+.guide-card>div a:last-child{color:var(--ink)}
+.guide-directory-note{margin-top:30px;padding:20px 22px;background:var(--white);border:1px solid var(--line);border-radius:8px;color:var(--muted)}
+.guide-directory-note a{color:var(--blue);font-weight:700;text-decoration:underline;text-underline-offset:4px}
+@media(max-width:700px){.guide-card-grid{grid-template-columns:1fr}.guide-card{min-height:0}}
