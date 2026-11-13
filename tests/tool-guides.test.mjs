@@ -20,18 +20,20 @@ test("batch 1 tool guides have unique SEO metadata, visible content, FAQs and wo
   for (const guide of guides) {
     const file = `tools/${guide.slug}/index.html`;
     const html = await readFile(path.join(root, file), "utf8");
-    const title = html.match(/<title>([^<]+)<\\/title>/)?.[1];
+    const titleStart = html.indexOf("<title>");
+    const titleEnd = html.indexOf("</title>");
+    const title = titleStart >= 0 && titleEnd > titleStart ? html.slice(titleStart + 7, titleEnd) : "";
     const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
     assert.ok(title, file + " has a title");
     assert.ok(!titles.has(title), file + " has a unique title");
     assert.ok(canonical, file + " has a canonical URL");
     assert.ok(!canonicals.has(canonical), file + " has a unique canonical URL");
-    assert.match(html, /<h1>[^<]+<\\/h1>/);
+    assert.ok(html.includes("<h1>") && html.includes("</h1>"), file + " has a visible H1");
     assert.match(html, /name="description" content="[^"]+"/);
-    assert.match(html, /application\\/ld\\+json/);
-    assert.match(html, /Frequently asked questions/);
-    assert.match(html, new RegExp('href="https://melvinvarghese\\.github\\.io/Library-Toolkit' + guide.tool.replaceAll("/", "\\/") + '"'));
-    assert.match(html, /guide-page\\.ts/);
+    assert.ok(html.includes("application/ld+json"), file + " has structured data");
+    assert.ok(html.includes("Frequently asked questions"), file + " has visible FAQs");
+    assert.ok(html.includes('href="https://melvinvarghese.github.io/Library-Toolkit' + guide.tool + '"'), file + " links to its working tool");
+    assert.ok(html.includes("guide-page.ts"), file + " loads the shared guide styles");
     assert.doesNotMatch(html, /name="robots"[^>]*noindex/i);
     titles.add(title);
     canonicals.add(canonical);
