@@ -47,7 +47,10 @@ async function htmlFiles(directory){
   const files=[];
   for(const entry of entries){
     const full=path.join(directory,entry.name);
-    if(entry.isDirectory())files.push(...await htmlFiles(full));
+    if(entry.isDirectory()){
+      if(["node_modules","dist",".git"].includes(entry.name))continue;
+      files.push(...await htmlFiles(full));
+    }
     else if(entry.name.endsWith(".html"))files.push(full);
   }
   return files;
