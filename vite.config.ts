@@ -12,6 +12,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(root, "index.html"),
+        toolGuides: resolve(root, "tools/index.html"),
         continuousBarcode: resolve(root, "barcode/continuous/index.html"),
         isbnBarcode: resolve(root, "barcode/isbn/index.html"),
         customBarcode: resolve(root, "barcode/custom/index.html"),
