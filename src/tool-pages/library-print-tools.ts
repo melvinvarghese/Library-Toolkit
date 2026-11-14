@@ -1,12 +1,12 @@
 import "../styles.css";
 import "./batch2.css";
 import "./library-print-tools.css";
+import {esc} from "./html";
 import {clampOwnershipStamp,parseArrivalBooks,validateDueDateSlip} from "./library-print-utils.mjs";
 
 const appRoot=document.querySelector<HTMLElement>("#tool-app");
 if(!appRoot)throw new Error("Tool page container was not found.");
 const root:HTMLElement=appRoot,kind=root.dataset.tool||"";
-const esc=(value:string)=>String(value).replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]||char));
 const today=()=>{const now=new Date();return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;};
 const addDays=(date:string,days:number)=>{const value=new Date(`${date}T12:00:00`);value.setDate(value.getDate()+days);return `${value.getFullYear()}-${String(value.getMonth()+1).padStart(2,"0")}-${String(value.getDate()).padStart(2,"0")}`;};
 const $=<T extends HTMLElement>(id:string)=>root.querySelector<T>(`#${id}`)!;

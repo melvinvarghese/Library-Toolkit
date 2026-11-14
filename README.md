@@ -8,13 +8,13 @@ Free, practical browser-based utilities for librarians, library assistants and l
 - Print-ready outputs with configurable dimensions
 - Useful to librarians worldwide, including small school and college libraries
 
-## Planned categories
+## Categories
 - Barcode tools: continuous, custom, CSV, member and ISBN workflows
 - Label tools: spine, four-line, book, shelf and custom labels
 - Library utilities: accession registers, purchase lists, stock verification and calculators
 - Data utilities: CSV viewing, cleaning, mapping, formatting and PDF export
 
-The responsive homepage and tool directory list 45 utilities, with 31 available tools. The latest additions include library ownership stamps, new-arrivals posters, due-date slips, barcode sheets, CSV-based labels and data cleanup tools.
+The responsive homepage and tool directory list 31 utilities, all available. The latest additions include library ownership stamps, new-arrivals posters, due-date slips, barcode sheets, CSV-based labels and data cleanup tools.
 
 ## Development
 Requires Node.js 20+ and npm.
